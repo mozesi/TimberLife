@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -21,10 +22,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        dataBinding{
+            android.buildFeatures.dataBinding = true
+        }
     }
+
 }
 
 dependencies {
+    def lifecycle_version = "2.4.0-alpha03"
+    def room_version = "2.3.0"
+
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -34,5 +43,20 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    kapt"androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // ViewModel
+    implementation"androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation"androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation"androidx.room:room-runtime:$room_version"
+    kapt"androidx.room:room-compiler:$room_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1'
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+
+
+
 
 }
